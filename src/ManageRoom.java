@@ -1,6 +1,7 @@
 import javax.swing.JButton;
 import java.sql.*;
 import Project.ConnectionProvider;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,7 +27,7 @@ public class ManageRoom extends javax.swing.JFrame {
     jTextField2.setBackground(new JButton().getBackground());
     jTextField2.setForeground(new JButton().getForeground());
     
-    jTextField2.setEditable(false);
+    jTextField2.setEditable(true);
 }
     
     public void tableDetails(){
@@ -55,6 +56,7 @@ public class ManageRoom extends javax.swing.JFrame {
      */
     public ManageRoom() {
         initComponents();
+        tableDetails();
     }
 
     /**
@@ -155,6 +157,11 @@ public class ManageRoom extends javax.swing.JFrame {
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 160, -1, -1));
 
         jTextField2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(144, 157, 123, -1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -168,16 +175,31 @@ public class ManageRoom extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
         jButton3.setText("Update");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(423, 200, -1, -1));
 
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
         jButton4.setText("Delete");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(554, 200, -1, -1));
 
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
         jButton5.setText("Search");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(293, 155, -1, -1));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 239, 700, 10));
 
@@ -229,6 +251,87 @@ public class ManageRoom extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:                                                                               
+        String roomNo = jTextField2.getText();
+
+        int i = 0;
+
+        try{
+            Connection con = ConnectionProvider.getCon();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM room WHERE number = '"+roomNo+"'");
+
+            while(rs.next()){
+                i = 1;
+
+                if(rs.getString(3).equals("Booked")){
+                    JOptionPane.showMessageDialog(null, "This room is booed");
+                    clear();
+                }else{
+                    jTextField2.setEditable(false);
+                    jTextField2.setForeground(Color.red);
+                    jTextField2.setBackground(Color.pink);
+                    if(rs.getString(2).equals("Yes"))
+                        jCheckBox2.setSelected(true);
+                    else
+                        jCheckBox2.setSelected(false);
+                }
+            }
+
+            if(i == 0){
+                JOptionPane.showMessageDialog(null, "Room does not exist");
+                clear();
+            }
+
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String roomNo = jTextField2.getText();
+        String activate;
+
+        if(jCheckBox2.isSelected()){
+            activate = "Yes";
+        } else {
+            activate = "No";
+        }
+        
+        try {
+            Connection con = ConnectionProvider.getCon();
+            Statement st = con.createStatement();
+            st.executeUpdate("UPDATE room SET activate = '"+activate+"' WHERE number = '"+roomNo+"'");
+            JOptionPane.showMessageDialog(null, "Successfully Updated");
+            tableDetails();
+            clear();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String roomNo = jTextField2.getText();
+        try{
+            Connection con = ConnectionProvider.getCon();
+            Statement st = con.createStatement();
+            st.executeUpdate("DELETE FROM room WHERE number = '"+roomNo+"'");
+            JOptionPane.showMessageDialog(null, "Successfully Deleted");
+            tableDetails();
+            clear();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
