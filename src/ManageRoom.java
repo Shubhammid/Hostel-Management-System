@@ -1,6 +1,7 @@
 import javax.swing.JButton;
 import java.sql.*;
 import Project.ConnectionProvider;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -197,7 +198,36 @@ public class ManageRoom extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String RoomNumber = jTextField1.getText();
+        String activate;
+        if(jCheckBox1.isSelected()){
+            activate = "Yes";
+        } else {
+            activate = "No";
+        }
+
+        String roomStatus = "Not Booked";
         
+        try{
+        Connection con = ConnectionProvider.getCon();
+        PreparedStatement ps = con.prepareStatement(
+            "INSERT INTO room(number, activate, roomStatus) VALUES(?,?,?)"
+        );
+
+        ps.setString(1, RoomNumber);
+        ps.setString(2, activate);
+        ps.setString(3, roomStatus);
+
+        ps.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Room Added Successfully");
+
+        clear();          
+        tableDetails();   
+
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
