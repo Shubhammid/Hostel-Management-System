@@ -45,7 +45,8 @@ public class NewStudent extends javax.swing.JFrame {
             }
 
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, e );
+            
         }
     }
 
