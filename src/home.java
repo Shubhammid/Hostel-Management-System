@@ -300,6 +300,7 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
         jButton2.setForeground(Color.red);
         jButton2.setBackground(new Color(255,255,255));
+        new NewStudent().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
