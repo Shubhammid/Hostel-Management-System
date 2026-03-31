@@ -267,7 +267,7 @@ public class ManageRoom extends javax.swing.JFrame {
                 i = 1;
 
                 if(rs.getString(3).equals("Booked")){
-                    JOptionPane.showMessageDialog(null, "This room is booed");
+                    JOptionPane.showMessageDialog(null, "This room is booked");
                     clear();
                 }else{
                     jTextField2.setEditable(false);

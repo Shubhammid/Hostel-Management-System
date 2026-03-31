@@ -183,11 +183,21 @@ public class NewStudent extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
         jButton2.setText("Save");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(309, 438, -1, -1));
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
         jButton3.setText("Clear");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 438, -1, -1));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pages background.jpg"))); // NOI18N
@@ -213,6 +223,64 @@ public class NewStudent extends javax.swing.JFrame {
         // TODO add your handling code here:
         setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:                                        
+        String mobileNo = jTextField1.getText();
+        String name = jTextField2.getText();
+        String fathername = jTextField3.getText();
+        String mothername = jTextField4.getText();
+        String email = jTextField5.getText();
+        String address = jTextField6.getText();
+        String college = jTextField7.getText();
+        String aadhaar = jTextField8.getText();
+        String roomNumber = (String) jComboBox1.getSelectedItem();
+        String status = "Living";
+
+        if(mobileNo.equals("") || name.equals("") || aadhaar.equals("") || roomNumber == null){
+            JOptionPane.showMessageDialog(null, "Please fill all required fields");
+            return;
+        }
+
+        try{
+            Connection con = ConnectionProvider.getCon();
+
+            PreparedStatement ps = con.prepareStatement(
+                "INSERT INTO student VALUES (?,?,?,?,?,?,?,?,?,?)"
+            );
+
+            ps.setString(1, mobileNo);
+            ps.setString(2, name);
+            ps.setString(3, fathername);
+            ps.setString(4, mothername);
+            ps.setString(5, email);
+            ps.setString(6, address);
+            ps.setString(7, college);
+            ps.setString(8, aadhaar);
+            ps.setString(9, roomNumber);
+            ps.setString(10, status);
+
+            ps.executeUpdate();
+
+            PreparedStatement ps2 = con.prepareStatement(
+                "UPDATE room SET roomStatus='Booked' WHERE number=?"
+            );
+            ps2.setString(1, roomNumber);
+            ps2.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Student Updated Successfully");
+
+            clear();
+
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
