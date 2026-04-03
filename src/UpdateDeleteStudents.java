@@ -2,12 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
+import java.sql.*;
+import Project.ConnectionProvider;
 /**
  *
  * @author Admin
  */
 public class UpdateDeleteStudents extends javax.swing.JFrame {
+    
+    public void clear(){
+    jTextField1.setEditable(true);
+    jTextField1.setText(""); 
+    jTextField2.setText(""); 
+    jTextField3.setText("");
+    jTextField4.setText("");
+    jTextField5.setText("");
+    jTextField6.setText("");
+    jTextField7.setText("");
+    jTextField8.setText("");
+    jTextField9.setText("");
+    
+    jComboBox1.removeAllItems();
+}
 
     /**
      * Creates new form UpdateDeleteStudents
