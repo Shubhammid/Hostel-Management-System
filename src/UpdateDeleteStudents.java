@@ -4,6 +4,7 @@
  */
 import java.sql.*;
 import Project.ConnectionProvider;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Admin
@@ -159,6 +160,11 @@ public class UpdateDeleteStudents extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
         jButton2.setText("Search");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(455, 38, -1, -1));
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -190,6 +196,63 @@ public class UpdateDeleteStudents extends javax.swing.JFrame {
         // TODO add your handling code here:
         setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String mobileNo = jTextField1.getText();
+
+        if(mobileNo.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter Mobile Number");
+            return;
+        }
+
+        try{
+            Connection con = ConnectionProvider.getCon();
+            PreparedStatement ps = con.prepareStatement(
+                "SELECT * FROM student WHERE mobileNo=?"
+            );
+            ps.setString(1, mobileNo);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                jTextField1.setEditable(false);
+
+                jTextField2.setText(rs.getString("name"));
+                jTextField3.setText(rs.getString("father"));
+                jTextField4.setText(rs.getString("mother"));
+                jTextField5.setText(rs.getString("email"));
+                jTextField6.setText(rs.getString("address"));
+                jTextField7.setText(rs.getString("college"));
+                jTextField8.setText(rs.getString("aadhaar"));
+                jTextField9.setText(rs.getString("roomNo"));
+
+                jTextField9.setEditable(false);
+
+                jComboBox1.removeAllItems();
+
+                String status = rs.getString("status");
+
+                if("living".equalsIgnoreCase(status)){
+                    jComboBox1.addItem("living");
+                    jComboBox1.addItem("leaved");
+                } else {
+                    jComboBox1.addItem("leaved");
+                    jComboBox1.addItem("living");
+                }
+
+                jButton3.setEnabled(true); 
+                jButton4.setEnabled(true);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Student does not exist");
+                clear();
+            }
+
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
