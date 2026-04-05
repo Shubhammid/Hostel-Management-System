@@ -170,16 +170,31 @@ public class UpdateDeleteStudents extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
         jButton3.setText("Update");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(297, 452, -1, -1));
 
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
         jButton4.setText("Delete");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(419, 452, -1, -1));
 
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
         jButton5.setText("Clear");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(533, 452, -1, -1));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pages background.jpg"))); // NOI18N
@@ -253,6 +268,105 @@ public class UpdateDeleteStudents extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String mobileNo = jTextField1.getText();
+        String name = jTextField2.getText();
+        String father = jTextField3.getText();
+        String mother = jTextField4.getText();
+        String email = jTextField5.getText();
+        String address = jTextField6.getText();
+        String college = jTextField7.getText();
+        String aadhaar = jTextField8.getText();
+        String roomNo = jTextField9.getText();
+        String status = (String) jComboBox1.getSelectedItem();
+
+        try{
+            Connection con = ConnectionProvider.getCon();
+
+            PreparedStatement ps = con.prepareStatement(
+                "UPDATE student SET name=?, father=?, mother=?, email=?, address=?, college=?, aadhaar=?, status=? WHERE mobileNo=?"
+            );
+
+            ps.setString(1, name);
+            ps.setString(2, father);
+            ps.setString(3, mother);
+            ps.setString(4, email);
+            ps.setString(5, address);
+            ps.setString(6, college);
+            ps.setString(7, aadhaar);
+            ps.setString(8, status);
+            ps.setString(9, mobileNo);
+
+            ps.executeUpdate();
+
+            PreparedStatement ps2;
+
+            if(status.equalsIgnoreCase("living")){
+                ps2 = con.prepareStatement(
+                    "UPDATE room SET roomStatus='Booked' WHERE number=?"
+                );
+            } else {
+                ps2 = con.prepareStatement(
+                    "UPDATE room SET roomStatus='Not Booked' WHERE number=?"
+                );
+            }
+
+            ps2.setString(1, roomNo);
+            ps2.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Successfully Updated");
+
+            clear();
+
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String mobileNo = jTextField1.getText();
+        String roomNo = jTextField9.getText();
+
+        int confirm = JOptionPane.showConfirmDialog(
+            null, 
+            "Do you really want to delete this student?", 
+            "Select", 
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if(confirm == JOptionPane.YES_OPTION){
+            try{
+                Connection con = ConnectionProvider.getCon();
+
+                PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM student WHERE mobileNo=?"
+                );
+                ps.setString(1, mobileNo);
+                ps.executeUpdate();
+
+                PreparedStatement ps2 = con.prepareStatement(
+                    "UPDATE room SET roomStatus='Not Booked' WHERE number=?"
+                );
+                ps2.setString(1, roomNo);
+                ps2.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Student Deleted Successfully");
+
+                clear();
+
+            } catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
