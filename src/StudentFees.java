@@ -1,13 +1,9 @@
 import java.sql.*;
 import Project.ConnectionProvider;
-import javax.swing.JOptionPane;/*
-
-
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+import javax.swing.JOptionPane;
+import java.text.SimpleDateFormat;
 import javax.swing.table.DefaultTableModel;
-
+import java.util.Date;
 /**
  *
  * @author Admin
@@ -208,29 +204,39 @@ public class StudentFees extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String mobileNo = jTextField1.getText();
+        String mobileNo = jTextField1.getText().trim();
+        
+        SimpleDateFormat dFormat = new SimpleDateFormat("MM-yyyy");
+        Date date = new Date();
+        String month = dFormat.format(date);
 
         try {
             Connection con = ConnectionProvider.getCon();
             Statement st = con.createStatement();
 
-            ResultSet rs = st.executeQuery("SELECT * FROM student WHERE mobileNo='" + mobileNo + "'");
+            ResultSet rs = st.executeQuery(
+                "SELECT * FROM student WHERE mobileNo='" + mobileNo + "' AND status='living'"
+            );
 
             if (rs.next()) {
-                jTextField2.setText(rs.getString("name"));
-                jTextField3.setText(rs.getString("email"));
-                jTextField4.setText(rs.getString("roomNo"));
-
-                // Optional: make fields non-editable
-                jTextField2.setEditable(false);
-                jTextField3.setEditable(false);
-                jTextField4.setEditable(false);
-
+                jTextField1.setEditable(false);
+                jTextField2.setText(rs.getString(2));
+                jTextField3.setText(rs.getString(5));
+                jTextField4.setText(rs.getString(9));
+                jTextField5.setText(month);
+                jTextField6.setText("6000");
             } else {
-                JOptionPane.showMessageDialog(null, "Student not found");
-                clear(); // if you have clear method
+                JOptionPane.showMessageDialog(null, "Student not found or not living");
+                clear();
             }
-
+            tableDetails();
+            
+            ResultSet rs1 = st.executeQuery(
+                "SELECT * FROM  fees inner join student where student.status='living' and fees.month='"+month+"' and fees.mobileNo='"+mobileNo+"' student.mobileNo='"+mobileNo+"'");
+            
+            if (rs1.next()) {
+                jButton2.setVisible(false);
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
