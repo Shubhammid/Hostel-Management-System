@@ -321,6 +321,7 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:        resetButtons();
         jButton5.setForeground(Color.red);
         jButton5.setBackground(new Color(255,255,255));
+        new AllStudentsLiving().setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
