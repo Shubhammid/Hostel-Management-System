@@ -11,6 +11,7 @@ import java.util.Date;
 public class StudentFees extends javax.swing.JFrame {
     
     public void clear() {
+    jButton3.setVisible(true);
     jTextField1.setEditable(true);
     jTextField1.setText("");
     jTextField2.setText("");
