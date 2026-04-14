@@ -195,7 +195,8 @@ public class NewEmployee extends javax.swing.JFrame {
 
             ps.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Employee Added Successfully");
+            
+            JOptionPane.showMessageDialog(null, "Employee Added  Successfully");
 
             clear();
         } catch (Exception e) {
