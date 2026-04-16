@@ -30,9 +30,9 @@ This application helps manage rooms, students, and their allocation efficiently.
 
 ## 🛠️ Tech Stack
 
-- **Java (Swing)** – GUI development  
+- **Java** – GUI development  
 - **MySQL** – Database  
 - **JDBC** – Database connectivity  
-- **NetBeans IDE** – UI design  
+- **NetBeans IDE** – UI design
 
 ---
