@@ -9,7 +9,7 @@ This application helps manage rooms, students, and their allocation efficiently.
 
 ### 🏠 Room Management
 - Add new rooms
-- Activate / Deactivate rooms
+- Activate / Deactivate room
 - Update room details
 - Delete rooms
 - View all rooms in a table
@@ -30,9 +30,9 @@ This application helps manage rooms, students, and their allocation efficiently.
 
 ## 🛠️ Tech Stack
 
-- **Java (Swing)** – GUI development  
+- **Java** – GUI development  
 - **MySQL** – Database  
 - **JDBC** – Database connectivity  
-- **NetBeans IDE** – UI design  
+- **NetBeans IDE** – UI design
 
 ---
