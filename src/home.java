@@ -342,6 +342,7 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
         jButton8.setForeground(Color.red);
         jButton8.setBackground(new Color(255,255,255));
+        new UpdateDeleteEmployee().setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
