@@ -189,6 +189,45 @@ public class UpdateDeleteEmployee extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        
+        String mobileNo = jTextField1.getText();
+        
+        try {
+        Connection con = ConnectionProvider.getCon();
+        PreparedStatement ps = con.prepareStatement(
+            "SELECT * FROM employee WHERE mobileNo = ?"
+        );
+        ps.setString(1, mobileNo);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            jTextField1.setEditable(false);
+
+            jTextField2.setText(rs.getString(2));
+            jTextField3.setText(rs.getString(3));
+            jTextField4.setText(rs.getString(4));
+            jTextField5.setText(rs.getString(5));
+            jTextField6.setText(rs.getString(6));
+            jTextField7.setText(rs.getString(7));
+            jTextField8.setText(rs.getString(8));
+
+            if(rs.getString(9).equals("Working")){
+                jComboBox1.addItem("Working");
+                jComboBox1.addItem("Not Working");
+            }else{
+                jComboBox1.addItem("Not Working");
+                jComboBox1.addItem("Working");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Employee not found");
+            clear();
+        }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
