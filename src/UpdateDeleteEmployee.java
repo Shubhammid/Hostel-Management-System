@@ -244,8 +244,8 @@ public class UpdateDeleteEmployee extends javax.swing.JFrame {
         // TODO add your handling code here:
         String mobileNo = jTextField1.getText();
         String name = jTextField2.getText();
-        String fatherName = jTextField3.getText();
-        String motherName = jTextField4.getText();
+        String father = jTextField3.getText();
+        String mother = jTextField4.getText();
         String email = jTextField5.getText();
         String address = jTextField6.getText();
         String aadhaar = jTextField7.getText();
@@ -254,12 +254,12 @@ public class UpdateDeleteEmployee extends javax.swing.JFrame {
         try {
             Connection con = ConnectionProvider.getCon();
             PreparedStatement ps = con.prepareStatement(
-                "UPDATE employee SET name=?, fatherName=?, motherName=?, email=?, address=?, aadhaarNo=?, status=? WHERE mobileNo=?"
+                "UPDATE employee SET name=?, father=?, mother=?, email=?, address=?, aadhaar=?, status=? WHERE mobileNo=?"
             );
 
             ps.setString(1, name);
-            ps.setString(2, fatherName);
-            ps.setString(3, motherName);
+            ps.setString(2, father);
+            ps.setString(3, mother);
             ps.setString(4, email);
             ps.setString(5, address);
             ps.setString(6, aadhaar);
@@ -278,7 +278,6 @@ public class UpdateDeleteEmployee extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
