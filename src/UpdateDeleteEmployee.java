@@ -154,6 +154,11 @@ public class UpdateDeleteEmployee extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
         jButton3.setText("Delete");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(423, 456, -1, -1));
 
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -275,6 +280,40 @@ public class UpdateDeleteEmployee extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String mobileNo = jTextField1.getText();
+
+        int confirm = JOptionPane.showConfirmDialog(
+            null,
+            "Do you really want to delete this employee?",
+            "Select",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                Connection con = ConnectionProvider.getCon();
+                PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM employee WHERE mobileNo = ?"
+                );
+                ps.setString(1, mobileNo);
+
+                int rowsDeleted = ps.executeUpdate();
+
+                if (rowsDeleted > 0) {
+                    JOptionPane.showMessageDialog(null, "Employee Deleted Successfully");
+                    clear();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Employee not found");
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
