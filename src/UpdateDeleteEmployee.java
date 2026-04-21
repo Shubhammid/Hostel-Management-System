@@ -144,6 +144,11 @@ public class UpdateDeleteEmployee extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
         jButton2.setText("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 456, -1, -1));
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -229,6 +234,47 @@ public class UpdateDeleteEmployee extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String mobileNo = jTextField1.getText();
+        String name = jTextField2.getText();
+        String fatherName = jTextField3.getText();
+        String motherName = jTextField4.getText();
+        String email = jTextField5.getText();
+        String address = jTextField6.getText();
+        String aadhaar = jTextField7.getText();
+        String status = (String) jComboBox1.getSelectedItem();
+
+        try {
+            Connection con = ConnectionProvider.getCon();
+            PreparedStatement ps = con.prepareStatement(
+                "UPDATE employee SET name=?, fatherName=?, motherName=?, email=?, address=?, aadhaarNo=?, status=? WHERE mobileNo=?"
+            );
+
+            ps.setString(1, name);
+            ps.setString(2, fatherName);
+            ps.setString(3, motherName);
+            ps.setString(4, email);
+            ps.setString(5, address);
+            ps.setString(6, aadhaar);
+            ps.setString(7, status);
+            ps.setString(8, mobileNo);
+
+            int rowsUpdated = ps.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(null, "Employee Updated Successfully");
+                clear();
+            } else {
+                JOptionPane.showMessageDialog(null, "Update Failed");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
