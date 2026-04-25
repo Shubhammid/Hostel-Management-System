@@ -2,13 +2,50 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
+import java.sql.*;
+import Project.ConnectionProvider;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Admin
  */
 public class EmployeePayment extends javax.swing.JFrame {
 
+    public void clear() {
+    jButton3.setVisible(true);
+    jTextField1.setEditable(true);
+    jTextField1.setText("");
+    jTextField2.setText(""); 
+    jTextField3.setText(""); 
+    jTextField4.setText("");
+    jTextField5.setText("");
+    jTextField6.setText("");
+
+    DefaultTableModel dtm = (DefaultTableModel)jTable1.getModel();
+    dtm.setRowCount(0);
+    }
+    
+    public void tableDetails(){
+    DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+    dtm.setRowCount(0); 
+    String  mobileNo = jTextField1.getText();
+
+    try{
+        Connection con = ConnectionProvider.getCon();
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM payment where mobileNo='"+mobileNo+"'");
+
+        while(rs.next()){
+            dtm.addRow(new Object[]{
+                rs.getString(2),
+                rs.getString(3),
+            });
+        }
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+    }
     /**
      * Creates new form EmployeePayment
      */
